@@ -1,4 +1,4 @@
-import { isContentTypeBinary } from './handler'
+import { isContentTypeBinary, isContentCompressed } from './handler'
 
 describe('isContentTypeBinary', () => {
   it('Should determine whether it is binary', () => {
@@ -11,5 +11,17 @@ describe('isContentTypeBinary', () => {
     expect(isContentTypeBinary('application/json')).toBe(false)
     expect(isContentTypeBinary('application/ld+json')).toBe(false)
     expect(isContentTypeBinary('application/json; charset=UTF-8')).toBe(false)
+  })
+})
+
+describe('isContentCompressed', () => {
+  it('Should determine whether it is compressed', () => {
+    expect(isContentCompressed('gzip')).toBe(true)
+    expect(isContentCompressed('compress')).toBe(true)
+    expect(isContentCompressed('deflate')).toBe(true)
+    expect(isContentCompressed('br')).toBe(true)
+    expect(isContentCompressed('deflate, gzip')).toBe(true)
+    expect(isContentCompressed('')).toBe(false)
+    expect(isContentCompressed('unknown')).toBe(false)
   })
 })
